@@ -1,0 +1,66 @@
+2026-07-27 01:28:15 | INFO     | __main__ | Starting synthetic data generation (seed=42)
+2026-07-27 01:28:15 | INFO     | __main__ | Generating users...
+2026-07-27 01:28:15 | INFO     | __main__ |   users.csv: 50000 rows
+2026-07-27 01:28:15 | INFO     | __main__ | Generating advertisers...
+2026-07-27 01:28:15 | INFO     | __main__ |   advertisers.csv: 200 rows
+2026-07-27 01:28:15 | INFO     | __main__ | Generating campaigns...
+2026-07-27 01:28:15 | INFO     | __main__ |   campaigns.csv: 599 rows
+2026-07-27 01:28:15 | INFO     | __main__ | Generating creatives...
+2026-07-27 01:28:15 | INFO     | __main__ |   creatives.csv: 1484 rows
+2026-07-27 01:28:15 | INFO     | __main__ | Generating impressions and clicks (n=1000000)...
+2026-07-27 01:28:47 | INFO     | __main__ |   impressions.csv: 1000000 rows
+2026-07-27 01:28:47 | INFO     | __main__ |   clicks.csv: 22747 rows
+2026-07-27 01:28:47 | INFO     | __main__ |   Overall CTR: 2.2747% (22747 clicks / 1000000 impressions)
+2026-07-27 01:28:47 | INFO     | __main__ | Data generation complete in 32.6s
+2026-07-27 01:33:11 | INFO     | __main__ | Applying schema from sql/schema.sql
+2026-07-27 01:33:11 | INFO     | __main__ | Schema applied.
+2026-07-27 01:33:11 | INFO     | __main__ | Loaded users.csv -> users: 50000 rows in 0.1s
+2026-07-27 01:33:11 | INFO     | __main__ | Loaded advertisers.csv -> advertisers: 200 rows in 0.0s
+2026-07-27 01:33:11 | INFO     | __main__ | Loaded campaigns.csv -> campaigns: 599 rows in 0.0s
+2026-07-27 01:33:11 | INFO     | __main__ | Loaded creatives.csv -> creatives: 1484 rows in 0.0s
+2026-07-27 01:34:04 | INFO     | __main__ | Loaded impressions.csv -> impressions: 1000000 rows in 53.3s
+2026-07-27 01:34:07 | INFO     | __main__ | Loaded clicks.csv -> clicks: 22747 rows in 2.3s
+2026-07-27 01:34:07 | INFO     | __main__ | All tables loaded in 55.9s
+2026-07-27 01:37:46 | INFO     | src.etl.validate |   [OK] test_table.id is unique (3 rows)
+2026-07-27 01:37:46 | INFO     | src.etl.transform | Attached labels. Dataset CTR: 33.3333% (1 / 3)
+2026-07-27 01:37:46 | INFO     | src.etl.transform |   train: 2 rows, 2025-11-01 00:00:00 to 2025-11-15 00:00:00, CTR 50.0000%
+2026-07-27 01:37:46 | INFO     | src.etl.transform |   val: 2 rows, 2025-12-05 00:00:00 to 2025-12-10 00:00:00, CTR 50.0000%
+2026-07-27 01:37:46 | INFO     | src.etl.transform |   test: 2 rows, 2025-12-20 00:00:00 to 2025-12-25 00:00:00, CTR 50.0000%
+2026-07-27 01:37:50 | INFO     | __main__ | === EXTRACT ===
+2026-07-27 01:37:50 | INFO     | src.etl.extract | Extracting users from PostgreSQL...
+2026-07-27 01:37:50 | INFO     | src.etl.extract |   users: 50000 rows
+2026-07-27 01:37:50 | INFO     | src.etl.extract | Extracting advertisers from PostgreSQL...
+2026-07-27 01:37:50 | INFO     | src.etl.extract |   advertisers: 200 rows
+2026-07-27 01:37:50 | INFO     | src.etl.extract | Extracting campaigns from PostgreSQL...
+2026-07-27 01:37:50 | INFO     | src.etl.extract |   campaigns: 599 rows
+2026-07-27 01:37:50 | INFO     | src.etl.extract | Extracting creatives from PostgreSQL...
+2026-07-27 01:37:50 | INFO     | src.etl.extract |   creatives: 1484 rows
+2026-07-27 01:37:50 | INFO     | src.etl.extract | Extracting impressions from PostgreSQL...
+2026-07-27 01:38:12 | INFO     | src.etl.extract |   impressions: 1000000 rows
+2026-07-27 01:38:12 | INFO     | src.etl.extract | Extracting clicks from PostgreSQL...
+2026-07-27 01:38:13 | INFO     | src.etl.extract |   clicks: 22747 rows
+2026-07-27 01:38:13 | INFO     | __main__ | === VALIDATE ===
+2026-07-27 01:38:13 | INFO     | src.etl.validate | Running validation suite...
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] users.user_id is unique (50000 rows)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] advertisers.advertiser_id is unique (200 rows)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] campaigns.campaign_id is unique (599 rows)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] creatives.creative_id is unique (1484 rows)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] impressions.impression_id is unique (1000000 rows)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] clicks.click_id is unique (22747 rows)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] impressions null checks passed for 6 columns
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] impressions.user_id -> users.user_id referential integrity holds
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] impressions.campaign_id -> campaigns.campaign_id referential integrity holds
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] clicks.impression_id -> impressions.impression_id referential integrity holds
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] impressions value-range checks passed (2 checks)
+2026-07-27 01:38:13 | INFO     | src.etl.validate |   [OK] Overall CTR 2.2747% within sane range
+2026-07-27 01:38:13 | INFO     | src.etl.validate | All validation checks passed.
+2026-07-27 01:38:13 | INFO     | __main__ | === CLEAN ===
+2026-07-27 01:38:13 | INFO     | src.etl.clean |   Cleaned impressions: 1000000 -> 1000000 rows
+2026-07-27 01:38:13 | INFO     | __main__ | === TRANSFORM ===
+2026-07-27 01:38:13 | INFO     | src.etl.transform | Attached labels. Dataset CTR: 2.2747% (22747 / 1000000)
+2026-07-27 01:38:13 | INFO     | src.etl.transform |   train: 660123 rows, 2025-10-01 00:00:47 to 2025-11-30 00:00:00, CTR 2.2876%
+2026-07-27 01:38:13 | INFO     | src.etl.transform |   val: 164223 rows, 2025-11-30 00:01:03 to 2025-12-14 23:59:03, CTR 2.2025%
+2026-07-27 01:38:13 | INFO     | src.etl.transform |   test: 175654 rows, 2025-12-15 00:01:12 to 2025-12-30 23:59:55, CTR 2.2937%
+2026-07-27 01:38:13 | INFO     | __main__ | === SAVE ===
+2026-07-27 01:38:15 | INFO     | __main__ | Saved processed datasets and validation_report.json to data/processed
+2026-07-27 01:38:15 | INFO     | __main__ | ETL pipeline complete in 25.3s

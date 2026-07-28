@@ -1,0 +1,158 @@
+# =============================================================================
+# Synthetic Data Generation Configuration
+# CTR Prediction Platform — Phase 3
+# =============================================================================
+# Change n_impressions to scale from a fast local demo (100K) up to the full
+# resume-scale dataset (1M-3M) used later for modeling. Everything downstream
+# (ETL, EDA, feature engineering, modeling) reads these same CSVs, so scaling
+# here is the only change needed to reproduce the project at a larger size.
+
+random_seed: 42
+
+output_dir: "data/raw"
+
+volumes:
+  n_users: 50000
+  n_advertisers: 200
+  campaigns_per_advertiser_min: 1
+  campaigns_per_advertiser_max: 5
+  creatives_per_campaign_min: 1
+  creatives_per_campaign_max: 4
+  n_impressions: 1000000          # set to 3000000 for full-scale run
+
+date_range:
+  start_date: "2025-10-01"
+  end_date: "2025-12-31"
+
+reference_data:
+  countries:
+    - {code: "US", weight: 0.35}
+    - {code: "IN", weight: 0.20}
+    - {code: "GB", weight: 0.10}
+    - {code: "DE", weight: 0.08}
+    - {code: "BR", weight: 0.08}
+    - {code: "CA", weight: 0.07}
+    - {code: "AU", weight: 0.06}
+    - {code: "FR", weight: 0.06}
+
+  devices:
+    - {type: "mobile", weight: 0.62}
+    - {type: "desktop", weight: 0.30}
+    - {type: "tablet", weight: 0.08}
+
+  browsers:
+    - {name: "Chrome", weight: 0.55}
+    - {name: "Safari", weight: 0.22}
+    - {name: "Firefox", weight: 0.09}
+    - {name: "Edge", weight: 0.09}
+    - {name: "Samsung Internet", weight: 0.05}
+
+  operating_systems:
+    mobile: [{name: "Android", weight: 0.68}, {name: "iOS", weight: 0.32}]
+    desktop: [{name: "Windows", weight: 0.68}, {name: "macOS", weight: 0.24}, {name: "Linux", weight: 0.08}]
+    tablet: [{name: "iPadOS", weight: 0.55}, {name: "Android", weight: 0.45}]
+
+  interest_categories:
+    - "technology"
+    - "sports"
+    - "fashion"
+    - "finance"
+    - "travel"
+    - "gaming"
+    - "food"
+    - "fitness"
+    - "automotive"
+    - "home_and_garden"
+
+  campaign_categories:
+    - "technology"
+    - "sports"
+    - "fashion"
+    - "finance"
+    - "travel"
+    - "gaming"
+    - "food"
+    - "fitness"
+    - "automotive"
+    - "home_and_garden"
+
+  campaign_objectives:
+    - {name: "awareness", weight: 0.3}
+    - {name: "consideration", weight: 0.3}
+    - {name: "conversion", weight: 0.4}
+
+  creative_types:
+    - {type: "banner", weight: 0.45}
+    - {type: "native", weight: 0.30}
+    - {type: "video", weight: 0.25}
+
+  ad_positions:
+    - {position: "above_fold", weight: 0.55}
+    - {position: "below_fold", weight: 0.45}
+
+  publisher_domains:
+    - "newsdaily.com"
+    - "sportshub.net"
+    - "techinsider.io"
+    - "recipeworld.com"
+    - "traveltales.com"
+    - "financepulse.com"
+    - "gamezone.gg"
+    - "fitlife.app"
+    - "autoreview.com"
+    - "homestyle.net"
+
+  advertiser_industries:
+    - "retail"
+    - "finance"
+    - "technology"
+    - "automotive"
+    - "travel"
+    - "cpg"
+    - "gaming"
+    - "healthcare"
+
+# -----------------------------------------------------------------------------
+# Click probability model — coefficients live in LOGIT space and are summed,
+# then passed through sigmoid. This is what makes clicks realistic rather than
+# uniform random: CTR genuinely varies with device, creative, timing, fatigue,
+# and a latent per-user propensity, mirroring documented real-world CTR drivers.
+# -----------------------------------------------------------------------------
+click_model:
+  base_ctr: 0.014                 # ~1.4% baseline, in line with real display CTR
+
+  device_effect:
+    mobile: 0.10
+    desktop: -0.05
+    tablet: 0.00
+
+  creative_type_effect:
+    video: 0.30
+    native: 0.15
+    banner: 0.00
+
+  ad_position_effect:
+    above_fold: 0.22
+    below_fold: -0.18
+
+  hour_effect:                    # keyed by hour-of-day bucket
+    late_night: -0.35             # 0-5
+    morning: 0.00                 # 6-11
+    afternoon: 0.05               # 12-17
+    evening: 0.18                 # 18-22
+    night: -0.10                  # 23
+
+  weekend_effect: 0.06
+
+  interest_match_effect: 0.28     # user interest matches campaign category
+
+  objective_effect:
+    conversion: 0.10
+    consideration: 0.02
+    awareness: -0.06
+
+  user_propensity_std: 0.6        # spread of latent per-user click propensity
+
+  fatigue_decay_per_prior_impression: 0.12   # negative effect per prior impression
+                                              # seen by the same user that day
+  fatigue_cap: 5                             # fatigue effect stops growing beyond this

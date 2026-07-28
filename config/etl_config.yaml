@@ -1,0 +1,31 @@
+# =============================================================================
+# ETL Pipeline Configuration — Phase 5
+# =============================================================================
+
+# "postgres" reads from the live database (Phase 4); "csv" reads directly
+# from data/raw/*.csv. CSV fallback exists so the pipeline is runnable by
+# anyone cloning the repo without standing up PostgreSQL first.
+source: "postgres"
+csv_dir: "data/raw"
+output_dir: "data/processed"
+
+# Time-based split — NOT a random split. CTR models are deployed forward in
+# time, so validating on a random shuffle of the same date range as training
+# leaks future information (e.g. a campaign's own later performance) back
+# into training and overstates offline performance versus what you'd see in
+# production. Splitting by date simulates "train on the past, evaluate on
+# the future" the way the model will actually be used.
+split:
+  train_end_date: "2025-11-30"
+  val_end_date: "2025-12-15"
+  # test = everything after val_end_date through end of data
+
+validation:
+  max_null_fraction: 0.0          # no nulls tolerated in core fact columns
+  min_ctr: 0.001                  # sanity floor — catches a broken generator/join
+  max_ctr: 0.20                   # sanity ceiling — catches a broken generator/join
+  max_duplicate_fraction: 0.0001  # near-zero duplicate impression_ids tolerated
+
+cleaning:
+  floor_price_lower_bound: 0.0
+  floor_price_upper_bound: 10.0   # cap: values above this are treated as data errors
