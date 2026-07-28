@@ -1,4 +1,4 @@
-
+pipeline_banner.svg
 # Programmatic Advertising CTR Prediction Platform
 
 An end-to-end machine learning system that predicts the probability a user
