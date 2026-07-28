@@ -183,7 +183,7 @@ early-stopping callback. Full account in `notebooks/MODELING_README.md`.
 ctr-prediction-platform/
 ├── config/                  # data_gen_config.yaml, etl_config.yaml
 ├── data/
-│   ├── raw/                  # generated CSVs
+│   ├── raw/                  # CSVs
 │   └── processed/            # ETL + feature-engineered parquet, model artifacts
 ├── docs/                     # this banner
 ├── notebooks/                # EDA, feature engineering, modeling
