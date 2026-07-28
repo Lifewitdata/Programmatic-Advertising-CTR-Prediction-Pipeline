@@ -1,0 +1,184 @@
+<svg width="1400" height="320" viewBox="0 0 1400 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyBG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d0221"/>
+      <stop offset="35%" stop-color="#1b0b3a"/>
+      <stop offset="65%" stop-color="#2a0e4d"/>
+      <stop offset="100%" stop-color="#0a0118"/>
+    </linearGradient>
+
+    <linearGradient id="neonPink" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff2ec4"/>
+      <stop offset="100%" stop-color="#ff7ae0"/>
+    </linearGradient>
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#7afcff"/>
+    </linearGradient>
+    <linearGradient id="neonPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b2aff"/>
+      <stop offset="100%" stop-color="#c58bff"/>
+    </linearGradient>
+    <linearGradient id="neonGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffb800"/>
+      <stop offset="100%" stop-color="#fff08b"/>
+    </linearGradient>
+
+    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff6d8" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#ffd9f4" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffd9f4" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="320" fill="url(#skyBG)"/>
+
+  <!-- distant stars -->
+  <g fill="#ffffff">
+    <circle cx="60" cy="40" r="1.4" opacity="0.8"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="3.2s" repeatCount="indefinite"/></circle>
+    <circle cx="180" cy="70" r="1" opacity="0.6"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.6s" repeatCount="indefinite"/></circle>
+    <circle cx="320" cy="30" r="1.2" opacity="0.7"><animate attributeName="opacity" values="0.7;0.15;0.7" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="520" cy="55" r="1" opacity="0.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="3.6s" repeatCount="indefinite"/></circle>
+    <circle cx="760" cy="35" r="1.3" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.9s" repeatCount="indefinite"/></circle>
+    <circle cx="980" cy="60" r="1" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="3.4s" repeatCount="indefinite"/></circle>
+    <circle cx="1180" cy="30" r="1.4" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.4s" repeatCount="indefinite"/></circle>
+    <circle cx="1320" cy="65" r="1" opacity="0.5"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="3.8s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- big glowing moon / data-sun behind the mountains -->
+  <circle cx="1160" cy="120" r="150" fill="url(#moonGlow)"/>
+  <circle cx="1160" cy="120" r="58" fill="#fff3e0" opacity="0.95" filter="url(#softGlow)"/>
+  <circle cx="1160" cy="120" r="58" fill="none" stroke="#ff7ae0" stroke-width="1" opacity="0.5"/>
+
+  <!-- distant mountain silhouettes -->
+  <polygon points="0,260 150,150 260,230 380,140 520,250 650,180 780,240 900,160 1050,250 1200,190 1400,260 1400,320 0,320" fill="#1a0d33" opacity="0.85"/>
+  <polygon points="0,300 200,230 350,290 500,220 700,300 900,240 1100,300 1300,250 1400,300 1400,320 0,320" fill="#120823"/>
+
+  <!-- torii-style circuit gate, left -->
+  <g filter="url(#glow)" opacity="0.95">
+    <rect x="70" y="150" width="14" height="130" fill="url(#neonPink)"/>
+    <rect x="190" y="150" width="14" height="130" fill="url(#neonPink)"/>
+    <rect x="55" y="140" width="164" height="12" rx="4" fill="url(#neonCyan)"/>
+    <rect x="75" y="165" width="134" height="8" rx="3" fill="url(#neonPurple)"/>
+  </g>
+
+  <!-- the "pipeline river" - a glowing winding path the whole banner rides on -->
+  <path id="riverPath" d="M -20 250 C 150 190, 300 300, 470 230 C 640 160, 780 260, 950 200 C 1120 140, 1250 210, 1430 170"
+        fill="none" stroke="url(#neonCyan)" stroke-width="3" opacity="0.55" filter="url(#glow)"/>
+  <path d="M -20 250 C 150 190, 300 300, 470 230 C 640 160, 780 260, 950 200 C 1120 140, 1250 210, 1430 170"
+        fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4" stroke-dasharray="2 10"/>
+
+  <!-- five pipeline stage nodes riding the river, anime "energy crystal" style -->
+  <!-- Stage 1: Data -->
+  <g transform="translate(140,222)">
+    <polygon points="0,-26 22,0 0,26 -22,0" fill="url(#neonCyan)" filter="url(#glow)"/>
+    <polygon points="0,-14 12,0 0,14 -12,0" fill="#ffffff" opacity="0.85"/>
+    <text x="0" y="52" text-anchor="middle" font-family="Verdana, sans-serif" font-size="13" fill="#e8f9ff" font-weight="bold">DATA</text>
+  </g>
+
+  <!-- Stage 2: DB -->
+  <g transform="translate(430,240)">
+    <polygon points="0,-26 22,0 0,26 -22,0" fill="url(#neonPurple)" filter="url(#glow)"/>
+    <polygon points="0,-14 12,0 0,14 -12,0" fill="#ffffff" opacity="0.85"/>
+    <text x="0" y="52" text-anchor="middle" font-family="Verdana, sans-serif" font-size="13" fill="#f1e6ff" font-weight="bold">SQL</text>
+  </g>
+
+  <!-- Stage 3: ETL -->
+  <g transform="translate(720,192)">
+    <polygon points="0,-26 22,0 0,26 -22,0" fill="url(#neonPink)" filter="url(#glow)"/>
+    <polygon points="0,-14 12,0 0,14 -12,0" fill="#ffffff" opacity="0.85"/>
+    <text x="0" y="52" text-anchor="middle" font-family="Verdana, sans-serif" font-size="13" fill="#ffe6f7" font-weight="bold">ETL</text>
+  </g>
+
+  <!-- Stage 4: Features -->
+  <g transform="translate(990,210)">
+    <polygon points="0,-26 22,0 0,26 -22,0" fill="url(#neonGold)" filter="url(#glow)"/>
+    <polygon points="0,-14 12,0 0,14 -12,0" fill="#ffffff" opacity="0.85"/>
+    <text x="0" y="52" text-anchor="middle" font-family="Verdana, sans-serif" font-size="12" fill="#fff8e0" font-weight="bold">FEATURES</text>
+  </g>
+
+  <!-- Stage 5: Model -->
+  <g transform="translate(1250,180)">
+    <polygon points="0,-30 26,0 0,30 -26,0" fill="url(#neonCyan)" filter="url(#glow)"/>
+    <polygon points="0,-30 26,0 0,30 -26,0" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="9s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="0,-16 14,0 0,16 -14,0" fill="#ffffff" opacity="0.9"/>
+    <text x="0" y="58" text-anchor="middle" font-family="Verdana, sans-serif" font-size="14" fill="#e8f9ff" font-weight="bold">MODEL</text>
+  </g>
+
+  <!-- traveling energy orbs along the river -->
+  <circle r="5" fill="#ffffff" filter="url(#glow)">
+    <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#riverPath"/>
+    </animateMotion>
+  </circle>
+  <circle r="4" fill="#7afcff" filter="url(#glow)">
+    <animateMotion dur="6s" begin="1.5s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#riverPath"/>
+    </animateMotion>
+  </circle>
+  <circle r="4" fill="#ff7ae0" filter="url(#glow)">
+    <animateMotion dur="6s" begin="3s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#riverPath"/>
+    </animateMotion>
+  </circle>
+  <circle r="3.5" fill="#fff08b" filter="url(#glow)">
+    <animateMotion dur="6s" begin="4.5s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#riverPath"/>
+    </animateMotion>
+  </circle>
+
+  <!-- falling sakura-esque data petals -->
+  <g fill="#ff9fe0" opacity="0.85">
+    <ellipse cx="250" cy="0" rx="5" ry="3">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="-60 320" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.9;0" dur="7s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="600" cy="-20" rx="4" ry="2.5" fill="#9fe8ff">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="40 340" dur="8.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.9;0" dur="8.5s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="880" cy="-10" rx="5" ry="3">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="-30 330" dur="6.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.9;0" dur="6.5s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="1080" cy="-30" rx="4" ry="2.5" fill="#ffe38b">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="55 350" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.9;0" dur="9s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- title, anime-poster style with outline + glow -->
+  <text x="700" y="98" text-anchor="middle" font-family="Georgia, 'Noto Serif', serif" font-size="42"
+        fill="#ffffff" stroke="#ff2ec4" stroke-width="1.2" filter="url(#glow)" font-weight="bold"
+        letter-spacing="2">
+    CTR PREDICTION PIPELINE
+  </text>
+  <text x="700" y="128" text-anchor="middle" font-family="Verdana, sans-serif" font-size="15"
+        fill="#c9b3ff" letter-spacing="4" opacity="0.9">
+    DATA → ETL → FEATURES → MODEL → BID
+  </text>
+
+  <!-- bottom scan-line / hologram effect -->
+  <rect x="0" y="295" width="1400" height="2" fill="url(#neonCyan)" opacity="0.5">
+    <animate attributeName="y" values="150;295;150" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.6;0" dur="5s" repeatCount="indefinite"/>
+  </rect>
+</svg>
