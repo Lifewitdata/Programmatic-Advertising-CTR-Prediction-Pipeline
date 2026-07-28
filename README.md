@@ -1,4 +1,4 @@
-pipeline_banner.svg
+https://github.com/Lifewitdata/Programmatic-Advertising-CTR-Prediction-Pipeline/blob/6b7f5446db98458bb3ca1a242382386d3167c3af/pipeline_banner.svg
 # Programmatic Advertising CTR Prediction Platform
 
 An end-to-end machine learning system that predicts the probability a user
