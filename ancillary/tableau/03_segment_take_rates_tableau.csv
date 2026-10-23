@@ -1,0 +1,13 @@
+Segment_Type,Segment,Bookings,Take_Rate_Pct
+Route x Purpose,Domestic - Business,10694,30.21
+Route x Purpose,Domestic - Leisure,26471,32.6
+Route x Purpose,International - Business,6603,49.69
+Route x Purpose,International - Leisure,16232,49.79
+Loyalty Tier,Gold,4195,41.43
+Loyalty Tier,Silver,7990,40.88
+Loyalty Tier,Basic,14910,38.2
+Loyalty Tier,No Tier,32905,38.06
+Prior Trips,0 (first booking),28172,35.24
+Prior Trips,1,17909,40.76
+Prior Trips,2,8889,42.63
+Prior Trips,3+,5030,43.9

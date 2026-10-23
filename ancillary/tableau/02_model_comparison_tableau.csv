@@ -1,0 +1,5 @@
+Model,Model_Type,Split,ROC_AUC,PR_AUC,Log_Loss,Brier,Selected
+Logistic Regression,Parametric,Validation,0.6515,0.5587,0.6412,0.2249,Yes
+Random Forest,Non-parametric,Validation,0.6501,0.5553,0.6419,0.2252,No
+Logistic Regression,Parametric,Test,0.6565,0.5571,0.6383,0.2236,Yes
+Random Forest,Non-parametric,Test,0.6554,0.5562,0.639,0.2239,No

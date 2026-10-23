@@ -1,0 +1,32 @@
+,odds_ratio
+num__prior_ancillary_buyer,1.363744574307576
+cat__route_type_International,1.1745702962243205
+num__flight_duration_hrs,1.161199297827631
+num__has_children,1.1478802935966188
+num__party_size,1.1164779072201707
+cat__cabin_Economy,1.1082690197089264
+num__lead_time_days,1.0929388897841843
+cat__cabin_Premium Economy,1.0876063814242798
+cat__loyalty_tier_Gold,1.0771142865876429
+num__fare_usd,1.0353930893220282
+num__departure_weekend,1.0134838688166403
+cat__destination_region_Middle East,1.0005356333576956
+cat__loyalty_tier_Silver,0.9905231518392537
+cat__destination_region_North America,0.9860222399818143
+cat__destination_region_East Asia,0.9793927566025183
+cat__destination_region_South Asia,0.9715292503838329
+cat__destination_region_Oceania,0.9656872669547523
+cat__device_Tablet,0.9603731492238041
+cat__trip_purpose_Leisure,0.9599411858750714
+cat__channel_Agent,0.9598597121595263
+cat__channel_Web,0.9597510523641042
+cat__device_Desktop,0.9445285742945305
+num__prior_trips,0.9420151094340615
+cat__destination_region_Europe,0.9378940054259925
+cat__device_Mobile,0.9372753478246422
+cat__channel_App,0.9229027583328104
+cat__loyalty_tier_nan,0.8937729443850526
+cat__loyalty_tier_Basic,0.8915971743614031
+cat__trip_purpose_Business,0.8856817161160241
+cat__route_type_Domestic,0.7238411865252113
+cat__cabin_Business,0.705351126389938

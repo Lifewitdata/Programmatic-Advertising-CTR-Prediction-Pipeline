@@ -1,0 +1,3 @@
+,roc_auc,pr_auc,log_loss,brier,split
+Logistic Regression,0.6565,0.5571,0.6383,0.2236,test
+Random Forest,0.6554,0.5562,0.639,0.2239,test

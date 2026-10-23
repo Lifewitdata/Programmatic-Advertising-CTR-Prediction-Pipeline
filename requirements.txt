@@ -11,3 +11,5 @@ shap>=0.44
 matplotlib>=3.7
 seaborn>=0.12
 pyarrow>=14.0
+jupyter>=1.0
+pytest>=7.0
