@@ -1,0 +1,20 @@
+{
+  "users.duplicate_pk_fraction": 0.0,
+  "advertisers.duplicate_pk_fraction": 0.0,
+  "campaigns.duplicate_pk_fraction": 0.0,
+  "creatives.duplicate_pk_fraction": 0.0,
+  "impressions.duplicate_pk_fraction": 0.0,
+  "clicks.duplicate_pk_fraction": 0.0,
+  "impressions.user_id.null_fraction": 0.0,
+  "impressions.campaign_id.null_fraction": 0.0,
+  "impressions.creative_id.null_fraction": 0.0,
+  "impressions.timestamp.null_fraction": 0.0,
+  "impressions.device.null_fraction": 0.0,
+  "impressions.country.null_fraction": 0.0,
+  "impressions.user_id_orphans": 0,
+  "impressions.campaign_id_orphans": 0,
+  "clicks.impression_id_orphans": 0,
+  "impressions.hour_of_day_out_of_range": 0,
+  "impressions.negative_floor_price": 0,
+  "overall_ctr": 0.01972
+}

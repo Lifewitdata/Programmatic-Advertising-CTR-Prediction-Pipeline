@@ -1,0 +1,7 @@
+{
+  "analytical_queries_executed": 10,
+  "advertiser_isolation": "PASS for advertiser_1 and advertiser_2",
+  "raw_identity_access": "DENIED",
+  "reporting_writes": "DENIED",
+  "postgres_source_report_reconciliation": "MATCH"
+}

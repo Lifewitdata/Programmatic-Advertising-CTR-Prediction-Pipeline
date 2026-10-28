@@ -1,29 +1,15 @@
-# ETL pipeline (Phase 5)
+# Data preparation
 
-Run: `python -m src.etl.run_etl --config config/etl_config.yaml`
-Test: `python -m pytest tests/test_etl.py -v`
+Use `python -m src.run_pipeline --n-impressions 25000` for the complete current
+workflow. It generates inputs, validates contracts, attributes clicks within
+24 hours, waits for fully observed labels, builds point-in-time features and
+produces reconciled reports. The explicit CSV path is the default.
 
-## Stages
-1. **extract** — pulls all 6 tables from PostgreSQL (falls back to
-   `data/raw/*.csv` if the DB is unreachable, so the pipeline is runnable
-   without standing up Postgres first)
-2. **validate** — primary-key uniqueness, null checks, referential integrity
-   (orphan FK detection), value-range checks, and an overall-CTR sanity check.
-   Raises `ValidationError` and stops the pipeline on any failure — bad data
-   never silently reaches training.
-3. **clean** — deduplication, floor-price outlier capping, categorical
-   normalization. A no-op on this synthetic data by construction, but keeps
-   the pipeline correct if pointed at messier real data.
-4. **transform** — LEFT JOINs clicks onto impressions to build the binary
-   `clicked` label, then performs a **time-based** train/val/test split
-   (not random) to avoid leaking future information into training.
-5. **save** — writes `train.parquet`, `val.parquet`, `test.parquet`,
-   `ctr_dataset_full.parquet`, and `validation_report.json`.
+`python -m src.etl.run_etl` is a lower-level preparation entry point for supplied
+CSV or PostgreSQL inputs and requires the matching raw observation manifest.
+PostgreSQL is never silently replaced by CSV on failure. Duplicate keys and
+broken relationships fail before transformation.
 
-## Verified run (1M impressions)
-- Extract: ~23s from Postgres
-- Validation: all 17 checks passed
-- Split: train 660,123 / val 164,223 / test 175,654 rows, CTR 2.29% / 2.20% /
-  2.29% — consistent across the time split, confirming no drift artifact
-  from the split boundaries themselves
-- Total pipeline runtime: ~25s
+`load_to_postgres` loads all six raw tables in one transaction. A fresh schema
+is created without dropping existing tables. Replacing populated demo tables
+requires the explicit `--replace-demo-data` flag; failures roll back the load.

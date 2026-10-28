@@ -1,0 +1,4 @@
+device,impressions,clicks,ctr,ci_low,ci_high,method
+desktop,7383,138,0.018691588785046728,0.015709543337675796,0.021821092179612592,"400 user-cluster bootstrap resamples, 95% percentile CI"
+mobile,15772,316,0.02003550595992899,0.01781695085832309,0.022024505619289956,"400 user-cluster bootstrap resamples, 95% percentile CI"
+tablet,1845,39,0.02113821138211382,0.015189127143760793,0.028865677427639912,"400 user-cluster bootstrap resamples, 95% percentile CI"

@@ -82,7 +82,7 @@ GROUP BY i.hour_of_day
 ORDER BY i.hour_of_day;
 
 -- -----------------------------------------------------------------------------
--- 6. Daily CTR trend with a 7-day moving average (window function)
+-- 6. Daily CTR trend with a 7-calendar-day impression-weighted CTR (window function)
 -- -----------------------------------------------------------------------------
 WITH daily AS (
     SELECT
@@ -99,9 +99,11 @@ SELECT
     clicks,
     ROUND(100.0 * clicks / impressions, 4) AS ctr_pct,
     ROUND(
-        AVG(100.0 * clicks / impressions) OVER (
-            ORDER BY "date" ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-        ), 4
+        100.0 * SUM(clicks) OVER (
+            ORDER BY "date"::date RANGE BETWEEN INTERVAL '6 days' PRECEDING AND CURRENT ROW
+        ) / NULLIF(SUM(impressions) OVER (
+            ORDER BY "date"::date RANGE BETWEEN INTERVAL '6 days' PRECEDING AND CURRENT ROW
+        ), 0), 4
     ) AS ctr_7day_moving_avg
 FROM daily
 ORDER BY "date";
@@ -161,7 +163,7 @@ WITH campaign_ctr AS (
     JOIN campaigns c    ON c.campaign_id = i.campaign_id
     LEFT JOIN clicks cl ON cl.impression_id = i.impression_id
     GROUP BY c.advertiser_id, c.campaign_id
-)
+), ranked AS (
 SELECT
     a.advertiser_name,
     cc.campaign_id,
@@ -177,6 +179,9 @@ SELECT
     ) AS rank_within_advertiser
 FROM campaign_ctr cc
 JOIN advertisers a ON a.advertiser_id = cc.advertiser_id
-WHERE cc.impressions >= 300
-ORDER BY a.advertiser_name, rank_within_advertiser
+)
+SELECT * FROM ranked
+WHERE impressions >= 300
+ORDER BY advertiser_name, rank_within_advertiser
 LIMIT 30;
+

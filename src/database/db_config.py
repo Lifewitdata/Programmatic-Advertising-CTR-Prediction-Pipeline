@@ -19,14 +19,12 @@ class DBConfig:
 
     @property
     def dsn(self) -> str:
-        return (
-            f"host={self.host} port={self.port} dbname={self.dbname} "
-            f"user={self.user} password={self.password}"
-        )
+        from psycopg2.extensions import make_dsn
+        return make_dsn(host=self.host, port=self.port, dbname=self.dbname,
+                        user=self.user, password=self.password)
 
     @property
-    def sqlalchemy_url(self) -> str:
-        return (
-            f"postgresql+psycopg2://{self.user}:{self.password}"
-            f"@{self.host}:{self.port}/{self.dbname}"
-        )
+    def sqlalchemy_url(self):
+        from sqlalchemy.engine import URL
+        return URL.create('postgresql+psycopg2', username=self.user,
+            password=self.password, host=self.host, port=self.port, database=self.dbname)

@@ -22,7 +22,8 @@ from src.utils.logging_config import get_logger
 from src.etl.extract import extract
 from src.etl.validate import validate, ValidationError
 from src.etl.clean import clean_impressions, clean_clicks
-from src.etl.transform import attach_label, time_based_split
+from src.etl.transform import time_based_split
+from src.features import labels
 
 logger = get_logger(__name__)
 
@@ -52,7 +53,8 @@ def main(config_path: str) -> None:
 
     # ---- Transform (label + split) -----------------------------------------
     logger.info("=== TRANSFORM ===")
-    labeled = attach_label(impressions_clean, clicks_clean)
+    manifest = json.loads((Path(config['csv_dir']) / 'manifest.json').read_text())
+    labeled = labels(impressions_clean, clicks_clean, manifest['observed_through'])
 
     split_cfg = config["split"]
     train, val, test = time_based_split(
@@ -84,3 +86,4 @@ if __name__ == "__main__":
     parser.add_argument("--config", default="config/etl_config.yaml")
     args = parser.parse_args()
     main(args.config)
+

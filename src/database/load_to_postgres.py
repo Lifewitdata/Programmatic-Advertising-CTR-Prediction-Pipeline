@@ -9,6 +9,9 @@ Usage:
     python -m src.database.load_to_postgres
 """
 
+import argparse
+import io
+import pandas as pd
 import time
 from pathlib import Path
 
@@ -46,28 +49,40 @@ def apply_schema(conn, schema_path: str = "sql/schema.sql") -> None:
     sql = Path(schema_path).read_text()
     with conn.cursor() as cur:
         cur.execute(sql)
-    conn.commit()
     logger.info("Schema applied.")
 
 
 def load_csv(conn, csv_path: Path, table: str, columns: str) -> int:
     with conn.cursor() as cur:
-        with open(csv_path, "r") as f:
+        ordered = [name.strip('"') for name in columns.split(',')]
+        # COPY maps positional values, not CSV header names. Reorder explicitly
+        # so valid input files need not share the schema's physical column order.
+        for chunk in pd.read_csv(csv_path, chunksize=100000):
+            if set(ordered) - set(chunk.columns):
+                raise ValueError(f'Missing required CSV columns for {table}')
+            buffer = io.StringIO()
+            chunk[ordered].to_csv(buffer, index=False)
+            buffer.seek(0)
             copy_sql = f"COPY {table} ({columns}) FROM STDIN WITH (FORMAT csv, HEADER true)"
-            cur.copy_expert(copy_sql, f)
+            cur.copy_expert(copy_sql, buffer)
         cur.execute(f"SELECT COUNT(*) FROM {table}")
         row_count = cur.fetchone()[0]
-    conn.commit()
     return row_count
 
 
-def main(data_dir: str = "data/raw") -> None:
+def main(data_dir: str = "data/raw", replace_demo_data: bool = False) -> None:
     t0 = time.time()
     db_config = DBConfig()
     conn = psycopg2.connect(db_config.dsn)
 
     try:
         apply_schema(conn)
+        with conn.cursor() as cur:
+            for _, table, _ in LOAD_ORDER:
+                cur.execute(f'SELECT EXISTS (SELECT 1 FROM {table})')
+                if cur.fetchone()[0] and not replace_demo_data:
+                    raise ValueError('Demo tables contain data; use --replace-demo-data for an intentional rebuild')
+            cur.execute('TRUNCATE clicks, impressions, creatives, campaigns, advertisers, users')
 
         data_path = Path(data_dir)
         for filename, table, columns in LOAD_ORDER:
@@ -82,10 +97,19 @@ def main(data_dir: str = "data/raw") -> None:
                 filename, table, row_count, time.time() - t_start,
             )
 
+        conn.commit()
         logger.info("All tables loaded in %.1fs", time.time() - t0)
+    except Exception:
+        conn.rollback()
+        raise
     finally:
         conn.close()
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data-dir', default='data/raw')
+    parser.add_argument('--replace-demo-data', action='store_true')
+    args = parser.parse_args()
+    main(args.data_dir, args.replace_demo_data)
+

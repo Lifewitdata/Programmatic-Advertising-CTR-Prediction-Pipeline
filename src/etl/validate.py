@@ -95,6 +95,41 @@ def validate(data: Dict[str, pd.DataFrame], config: dict) -> dict:
     Raises ValidationError on the first critical failure — an ETL pipeline
     should stop, not silently propagate bad data into model training.
     """
+    # Contract checks apply equally to CSV and PostgreSQL extraction.
+    from src.database.load_to_postgres import LOAD_ORDER
+    for _, table, column_list in LOAD_ORDER:
+        required = [c.strip('"') for c in column_list.split(',')]
+        if table not in data or set(required) - set(data[table].columns):
+            raise ValidationError(f"Missing schema columns in {table}")
+        if data[table][required[0]].duplicated().any():
+            raise ValidationError(f'Duplicate primary key in {table}')
+        if data[table][required].isna().any().any():
+            raise ValidationError(f"Null values in required columns of {table}")
+    if data['impressions'].empty:
+        raise ValidationError('Impressions cannot be empty')
+    for table, column in [('impressions', 'timestamp'), ('clicks', 'click_timestamp')]:
+        if pd.to_datetime(data[table][column], errors='coerce', format='mixed').isna().any():
+            raise ValidationError(f'Invalid timestamp in {table}.{column}')
+    if data['clicks'].impression_id.duplicated().any():
+        raise ValidationError('Each impression may have at most one attributed click')
+    for child, key, parent, parent_key in [
+        ('campaigns', 'advertiser_id', 'advertisers', 'advertiser_id'),
+        ('creatives', 'campaign_id', 'campaigns', 'campaign_id'),
+        ('impressions', 'creative_id', 'creatives', 'creative_id'),
+        ('impressions', 'advertiser_id', 'advertisers', 'advertiser_id')]:
+        if not data[child][key].isin(data[parent][parent_key]).all():
+            raise ValidationError(f'Orphan {child}.{key}')
+    linked = data['impressions'][['creative_id', 'campaign_id', 'advertiser_id']].merge(
+        data['creatives'][['creative_id', 'campaign_id']], on='creative_id',
+        suffixes=('', '_creative'), validate='many_to_one')
+    if linked.campaign_id.ne(linked.campaign_id_creative).any():
+        raise ValidationError('Creative does not belong to impression campaign')
+    linked = data['impressions'][['campaign_id', 'advertiser_id']].merge(
+        data['campaigns'][['campaign_id', 'advertiser_id']], on='campaign_id',
+        suffixes=('', '_campaign'), validate='many_to_one')
+    if linked.advertiser_id.ne(linked.advertiser_id_campaign).any():
+        raise ValidationError('Campaign does not belong to impression advertiser')
+
     v_cfg = config["validation"]
     report: dict = {}
 
@@ -135,3 +170,4 @@ def validate(data: Dict[str, pd.DataFrame], config: dict) -> dict:
 
     logger.info("All validation checks passed.")
     return report
+

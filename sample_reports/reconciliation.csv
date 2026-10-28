@@ -1,0 +1,3 @@
+metric,source_total,processed_total,report_total,difference,status
+impressions,25000,25000,25000,0,MATCH
+attributed_clicks,493,493,493,0,MATCH

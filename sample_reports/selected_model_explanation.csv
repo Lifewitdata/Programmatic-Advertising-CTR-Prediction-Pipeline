@@ -1,0 +1,18 @@
+feature,importance,explanation,model
+ad_position_te,0.23805024890035822,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+objective_te,0.18878922144186475,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+day_of_week,0.1342887320019198,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+device_te,-0.12585494710756842,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+is_weekend,-0.091512792717156,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+campaign_history_ctr,-0.0857235985747786,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+country_te,0.07037448383814622,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+floor_price_usd,-0.06959730157394221,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+campaign_history_clicks,0.05563401652001355,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+hour_of_day,0.04580568800771353,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+campaign_history_impressions,-0.033822282939940954,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+user_history_ctr,0.023469720681731567,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+hour_bucket_te,0.019799829135354028,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+user_history_impressions,0.01734272430514087,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+user_history_clicks,0.01452878757324008,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+creative_type_te,0.013203998531469375,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt
+prior_impressions_today,0.0002678531643583884,Selected logistic regression coefficients per standardized feature; excludes Platt mapping,Logistic Regression / platt

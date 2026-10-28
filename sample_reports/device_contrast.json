@@ -1,0 +1,7 @@
+{
+  "comparison": "mobile minus desktop CTR",
+  "ci_low": -0.002508245378145961,
+  "ci_high": 0.00483251088367106,
+  "zero_excluded": false,
+  "interpretation": "Exploratory association in generated data; no causal or real-market conclusion"
+}
