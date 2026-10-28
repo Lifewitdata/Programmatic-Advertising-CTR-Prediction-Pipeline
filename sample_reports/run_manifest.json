@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "observed_through": "2026-01-02T00:00:00",
+  "source_max_impression_time": "2025-12-31 23:57:40",
+  "raw_rows": {
+    "users": 2500,
+    "advertisers": 25,
+    "campaigns": 84,
+    "creatives": 211,
+    "impressions": 25000,
+    "clicks": 493
+  },
+  "eligible_rows": 25000,
+  "reported_impressions": 25000,
+  "reported_clicks": 493,
+  "reconciliation": "MATCH",
+  "refresh_mode": "deterministic full rebuild; atomic promotion by run_pipeline",
+  "lineage": [
+    "data/raw/*.csv",
+    "eligible labels",
+    "point-in-time features",
+    "SQLite DAILY_SQL",
+    "reports/current/campaign_daily.csv",
+    "Tableau/Excel"
+  ]
+}

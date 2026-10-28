@@ -38,12 +38,15 @@ def time_based_split(
     was collected) and avoids the leakage a random split would introduce via
     campaign- and user-level statistics computed in Phase 7.
     """
-    train_end = pd.Timestamp(train_end_date)
-    val_end = pd.Timestamp(val_end_date)
+    # Date-only configuration means the entire named day, in UTC.
+    train_end = pd.Timestamp(train_end_date).normalize() + pd.Timedelta(days=1)
+    val_end = pd.Timestamp(val_end_date).normalize() + pd.Timedelta(days=1)
+    if train_end >= val_end:
+        raise ValueError("Training must end before validation")
 
-    train = df[df["timestamp"] <= train_end].copy()
-    val = df[(df["timestamp"] > train_end) & (df["timestamp"] <= val_end)].copy()
-    test = df[df["timestamp"] > val_end].copy()
+    train = df[df["timestamp"] < train_end].copy()
+    val = df[(df["timestamp"] >= train_end) & (df["timestamp"] < val_end)].copy()
+    test = df[df["timestamp"] >= val_end].copy()
 
     for name, split_df in [("train", train), ("val", val), ("test", test)]:
         ctr = split_df["clicked"].mean() if len(split_df) else float("nan")
@@ -55,3 +58,4 @@ def time_based_split(
         )
 
     return train, val, test
+

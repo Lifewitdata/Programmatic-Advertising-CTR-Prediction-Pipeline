@@ -43,10 +43,11 @@ def extract_from_csv(csv_dir: str) -> Dict[str, pd.DataFrame]:
 
 
 def extract(config: dict) -> Dict[str, pd.DataFrame]:
-    if config["source"] == "postgres":
-        try:
-            return extract_from_postgres()
-        except Exception as exc:
-            logger.warning("PostgreSQL extraction failed (%s) — falling back to CSV.", exc)
-            return extract_from_csv(config["csv_dir"])
-    return extract_from_csv(config["csv_dir"])
+    source = config["source"]
+    if source == "postgres":
+        # An unavailable or changed source must fail rather than silently
+        # substitute a potentially stale CSV snapshot.
+        return extract_from_postgres()
+    if source == "csv":
+        return extract_from_csv(config["csv_dir"])
+    raise ValueError(f"Unknown data source: {source}")

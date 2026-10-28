@@ -1,0 +1,15 @@
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.pyc
+.venv/
+.env
+node_modules/
+data/raw/
+data/processed/
+reports/.pipeline.lock
+reports/.run-*/
+reports/run-*/
+reports/current
+logs/*.log
+outputs/

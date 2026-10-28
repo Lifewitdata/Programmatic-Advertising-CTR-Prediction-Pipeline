@@ -68,6 +68,7 @@ def test_time_based_split_has_no_temporal_overlap():
 
     assert train["timestamp"].max() <= pd.Timestamp("2025-11-30")
     assert val["timestamp"].min() > pd.Timestamp("2025-11-30")
-    assert val["timestamp"].max() <= pd.Timestamp("2025-12-15")
-    assert test["timestamp"].min() > pd.Timestamp("2025-12-15")
+    assert val["timestamp"].max() < pd.Timestamp("2025-12-16")
+    assert test["timestamp"].min() >= pd.Timestamp("2025-12-16")
     assert len(train) + len(val) + len(test) == len(df)
+

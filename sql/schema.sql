@@ -14,17 +14,11 @@
 --    reasonable on a fact table this size.
 -- =============================================================================
 
-DROP TABLE IF EXISTS clicks CASCADE;
-DROP TABLE IF EXISTS impressions CASCADE;
-DROP TABLE IF EXISTS creatives CASCADE;
-DROP TABLE IF EXISTS campaigns CASCADE;
-DROP TABLE IF EXISTS advertisers CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
 
 -- -----------------------------------------------------------------------------
 -- Dimension: users
 -- -----------------------------------------------------------------------------
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     user_id               BIGINT PRIMARY KEY,
     country               VARCHAR(2)   NOT NULL,
     primary_device        VARCHAR(20)  NOT NULL,
@@ -39,7 +33,7 @@ CREATE TABLE users (
 -- -----------------------------------------------------------------------------
 -- Dimension: advertisers
 -- -----------------------------------------------------------------------------
-CREATE TABLE advertisers (
+CREATE TABLE IF NOT EXISTS advertisers (
     advertiser_id    BIGINT PRIMARY KEY,
     advertiser_name  VARCHAR(100) NOT NULL,
     industry         VARCHAR(30)  NOT NULL,
@@ -49,7 +43,7 @@ CREATE TABLE advertisers (
 -- -----------------------------------------------------------------------------
 -- Dimension: campaigns (child of advertisers)
 -- -----------------------------------------------------------------------------
-CREATE TABLE campaigns (
+CREATE TABLE IF NOT EXISTS campaigns (
     campaign_id       BIGINT PRIMARY KEY,
     advertiser_id     BIGINT       NOT NULL REFERENCES advertisers(advertiser_id),
     category          VARCHAR(30)  NOT NULL,
@@ -63,12 +57,12 @@ CREATE TABLE campaigns (
     bid_strategy      VARCHAR(20)  NOT NULL
 );
 
-CREATE INDEX idx_campaigns_advertiser_id ON campaigns(advertiser_id);
+CREATE INDEX IF NOT EXISTS idx_campaigns_advertiser_id ON campaigns(advertiser_id);
 
 -- -----------------------------------------------------------------------------
 -- Dimension: creatives (child of campaigns)
 -- -----------------------------------------------------------------------------
-CREATE TABLE creatives (
+CREATE TABLE IF NOT EXISTS creatives (
     creative_id     BIGINT PRIMARY KEY,
     campaign_id     BIGINT      NOT NULL REFERENCES campaigns(campaign_id),
     creative_type   VARCHAR(20) NOT NULL,
@@ -76,12 +70,12 @@ CREATE TABLE creatives (
     headline        VARCHAR(100) NOT NULL
 );
 
-CREATE INDEX idx_creatives_campaign_id ON creatives(campaign_id);
+CREATE INDEX IF NOT EXISTS idx_creatives_campaign_id ON creatives(campaign_id);
 
 -- -----------------------------------------------------------------------------
 -- Fact table: impressions (millions of rows)
 -- -----------------------------------------------------------------------------
-CREATE TABLE impressions (
+CREATE TABLE IF NOT EXISTS impressions (
     impression_id             BIGINT PRIMARY KEY,
     "timestamp"                TIMESTAMP    NOT NULL,
     user_id                    BIGINT       NOT NULL REFERENCES users(user_id),
@@ -110,20 +104,21 @@ CREATE TABLE impressions (
 
 -- Indexes matched to the analysis queries below and to expected ETL access
 -- patterns (filter/join by campaign, country, device, and time window).
-CREATE INDEX idx_impressions_campaign_id ON impressions(campaign_id);
-CREATE INDEX idx_impressions_user_id ON impressions(user_id);
-CREATE INDEX idx_impressions_timestamp ON impressions("timestamp");
-CREATE INDEX idx_impressions_country ON impressions(country);
-CREATE INDEX idx_impressions_device ON impressions(device);
-CREATE INDEX idx_impressions_date ON impressions("date");
+CREATE INDEX IF NOT EXISTS idx_impressions_campaign_id ON impressions(campaign_id);
+CREATE INDEX IF NOT EXISTS idx_impressions_user_id ON impressions(user_id);
+CREATE INDEX IF NOT EXISTS idx_impressions_timestamp ON impressions("timestamp");
+CREATE INDEX IF NOT EXISTS idx_impressions_country ON impressions(country);
+CREATE INDEX IF NOT EXISTS idx_impressions_device ON impressions(device);
+CREATE INDEX IF NOT EXISTS idx_impressions_date ON impressions("date");
 
 -- -----------------------------------------------------------------------------
 -- Fact table: clicks (subset of impressions — sparse, ~1-3% of impressions)
 -- -----------------------------------------------------------------------------
-CREATE TABLE clicks (
+CREATE TABLE IF NOT EXISTS clicks (
     click_id         BIGINT PRIMARY KEY,
     impression_id    BIGINT    NOT NULL UNIQUE REFERENCES impressions(impression_id),
     click_timestamp  TIMESTAMP NOT NULL
 );
 
-CREATE INDEX idx_clicks_impression_id ON clicks(impression_id);
+CREATE INDEX IF NOT EXISTS idx_clicks_impression_id ON clicks(impression_id);
+

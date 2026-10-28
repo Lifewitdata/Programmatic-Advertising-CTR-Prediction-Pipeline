@@ -1,0 +1,36 @@
+{
+  "synthetic": true,
+  "generator_version": 2,
+  "selected_model": "Logistic Regression / platt",
+  "selection_metric": "validation log_loss",
+  "split_rows": {
+    "fit": 11858,
+    "calibration": 4124,
+    "validation": 3844,
+    "test": 4394
+  },
+  "purged_rows": 780,
+  "test_prevalence": 0.01729631315430132,
+  "test": {
+    "roc_auc": 0.5534969893469199,
+    "average_precision": 0.022881008505115173,
+    "log_loss": 0.08708539376845557,
+    "brier": 0.01698908120237363
+  },
+  "test_raw": {
+    "roc_auc": 0.5534969893469199,
+    "average_precision": 0.022881008505115173,
+    "log_loss": 0.08804329568363149,
+    "brier": 0.017036935427015083
+  },
+  "test_baseline": {
+    "roc_auc": 0.5,
+    "average_precision": 0.01729631315430132,
+    "log_loss": 0.08782396947716646,
+    "brier": 0.017017052566334033
+  },
+  "probability_status": "Platt fitted on calibration only",
+  "history_protocol": "Online outcomes after a complete 24h attribution window; strict prior timestamps",
+  "feature_count": 17,
+  "top_decile_lift": 1.8395933014354067
+}
