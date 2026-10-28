@@ -5,6 +5,14 @@ point-in-time features, probability calibration, aggregate reporting and client
 access controls. All observations are synthetic. This is digital advertising
 analytics, not a television delivery or billing system.
 
+## Live Tableau dashboard
+
+[View Ad Targeting – Revenue Impact Overview](https://public.tableau.com/app/profile/isfaque.ansari5273/viz/Ad_Targeting_Revenue_Impact/AdTargeting-RevenueImpactOverview)
+
+Published dashboard from the original project. Its alignment with the current
+version-2 dataset and model results has not yet been verified. The reproducible
+results below describe the current pipeline.
+
 ## Current verified demo
 
 The missing original generator has been replaced with a version-2 seeded
